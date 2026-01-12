@@ -171,14 +171,14 @@ def gather_label_info(img, labels):
     labels['height'] = height
     labels['width'] = width
 
-def main():
+def label_main(input_path, output_file):
     alphabet = """0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~!"#$%&'()*+,-./  """
     converter = strLabelConverter(alphabet)
     
     # Need to initialize the model outside the loop or the model gets reinitilized at every loop, the wights need to be reloaded  this could cause a cache creation that gives the same results no matter the input
     recognition_model = rec_model(args.rec_model_path, converter)
     
-    directory_path = Path(args.input_folder)
+    directory_path = Path(input_path)
     files_list = [p for p in directory_path.iterdir() if p.is_file()]
     index = 0
     for img_path in files_list:
@@ -192,7 +192,7 @@ def main():
         print(labels)
         df = pd.DataFrame(labels, index=[index])
         index += 1
-        df.to_csv(args.output_file, mode='a', header=not os.path.exists(args.output_file))
+        df.to_csv(output_file, mode='a', header=not os.path.exists(output_file))
 
 if __name__ == '__main__':
     args = init_args()

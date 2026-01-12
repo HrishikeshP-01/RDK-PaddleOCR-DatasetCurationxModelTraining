@@ -381,7 +381,7 @@ def init_args():
     args = parser.parse_args()
     return args
 
-def main():
+def synthesize(input_path, output_path):
     # Alphabet for OCR
     alphabet = """0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~!"#$%&'()*+,-./  """
     converter = strLabelConverter(alphabet)
@@ -392,7 +392,7 @@ def main():
     
     os.makedirs(os.path.dirname(args.dataset_raw), exist_ok = True)
     
-    directory_path = Path(args.image_path)
+    directory_path = Path(input_path)
     files_list = [p for p in directory_path.iterdir() if p.is_file()]
     counter = 0
     for path in files_list:
@@ -419,7 +419,7 @@ def main():
                     print(f"Raw Prediction: {raw_pred}")
                     print(f"Simplified Prediction: {sim_pred} \n")
                     if len(sim_pred) > 1:
-                        cv2.imwrite(f'{args.dataset_raw}{counter}.png', cropped_img)
+                        cv2.imwrite(f'{output_path}/{counter}.png', cropped_img)
                         counter += 1
                 except:
                     continue

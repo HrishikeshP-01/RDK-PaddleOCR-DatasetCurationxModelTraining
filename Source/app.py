@@ -2,6 +2,8 @@ import streamlit as st
 from pathlib import Path
 import os
 from DatasetCuration.Curation import curate_dataset
+from DatasetCuration.DatasetSynthesizer import synthesize
+from DatasetCuration.DataLabelling import label_main
 
 def get_file_count(path):
     directory_path = Path(path)
@@ -23,7 +25,8 @@ def main():
         path_to_synthetic_dataset = st.text_input('Path to synthetic dataset', placeholder='Path to synthetic dataset')
         if st.button('Synthesize Dataset'):
             if dataset_raw_count > 0:
-                synthesized_dataset_count = 0
+                synthesize(path_to_dataset_raw, path_to_synthetic_dataset)
+                synthesized_dataset_count = get_file_count(path_to_synthetic_dataset)
                 st.success('Dataset Synthesis Complete!')
                 st.info(f'Images Generated: {synthesized_dataset_count}')
             else:
@@ -40,8 +43,8 @@ def main():
         if st.button('Start Labelling'):
             if True:
                 st.success('Dataset labelling completed!')
-                path_to_dataset = ''
-                st.info(f'Labelled dataset at: {path_to_dataset}')
+                label_main(path_to_synthetic_dataset, path_to_synthetic_dataset+'labelled_dataset.csv')
+                st.info(f'Labelled dataset at: {path_to_synthetic_dataset+'labelled_dataset.csv'}')
             else:
                 st.error('Error labelling dataset')
 
@@ -72,7 +75,7 @@ def main():
         print(quality_thresholds)
         if st.button('Curate Dataset'):
             try:
-                curate_dataset('test.csv', quality_thresholds, '')
+                curate_dataset(path_to_synthetic_dataset+'labelled_dataset.csv', quality_thresholds, '')
                 st.success('Dataset Curated!')
                 st.info('File saved at:')
             except Exception as e:
