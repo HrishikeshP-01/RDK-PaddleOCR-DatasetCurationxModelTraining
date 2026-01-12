@@ -1,7 +1,7 @@
 import streamlit as st
 from pathlib import Path
 import os
-from ./DatasetCuration/Curation.py import curate_dataset
+from DatasetCuration.Curation import curate_dataset
 
 def get_file_count(path):
     directory_path = Path(path)
@@ -66,9 +66,17 @@ def main():
             quality_thresholds['contrast']['threshold_value'] = st.text_input('', placeholder='Enter threshold here', key='contrast_text')
         with st.container(horizontal=True, vertical_alignment="bottom", gap='small'):
             st.text('Confidence')
-            quality_thresholds['confidence'] = {}
-            quality_thresholds['confidence']['threshold_operator'] = st.selectbox('', ['Greater than', 'Lesser than', 'In range'], index=0, key='confidence')
-            quality_thresholds['confidence']['threshold_value'] = st.text_input('', placeholder='Enter threshold here', key='confidence_text')
+            quality_thresholds['avg_confidence'] = {}
+            quality_thresholds['avg_confidence']['threshold_operator'] = st.selectbox('', ['Greater than', 'Lesser than', 'In range'], index=0, key='confidence')
+            quality_thresholds['avg_confidence']['threshold_value'] = st.text_input('', placeholder='Enter threshold here', key='confidence_text')
         print(quality_thresholds)
+        if st.button('Curate Dataset'):
+            try:
+                curate_dataset('test.csv', quality_thresholds, '')
+                st.success('Dataset Curated!')
+                st.info('File saved at:')
+            except Exception as e:
+                st.error(f'Failed with Exception: {e}')
+            
 if __name__ == "__main__":
     main()
