@@ -1,0 +1,6 @@
+192.168.1.11
+sudo pkill -u $USER
+
+
+python -m pip install paddlepaddle==3.2.2 -i https://www.paddlepaddle.org.cn/packages/stable/cpu/
+git clone https://github.com/PaddlePaddle/PaddleOCR.git
