@@ -21,3 +21,4 @@ def curate_dataset(dataset_file_path, label_info, output_file_path):
     df_for_training = filtered_df.loc[:, ['file_path', 'prediction']]
     df_for_training.to_csv(output_file_path+'curated_dataset_for_training.csv', header=False, index=False)
     generate_labels_for_training(output_file_path+'curated_dataset_for_training.csv', output_file_path+'labels_for_training.txt')
+    return len(df_for_training), len(df)

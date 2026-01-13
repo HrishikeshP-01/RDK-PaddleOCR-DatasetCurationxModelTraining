@@ -172,6 +172,7 @@ def gather_label_info(img, labels):
     labels['width'] = width
 
 def label_main(input_path, output_file):
+    args = init_args()
     alphabet = """0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~!"#$%&'()*+,-./  """
     converter = strLabelConverter(alphabet)
     

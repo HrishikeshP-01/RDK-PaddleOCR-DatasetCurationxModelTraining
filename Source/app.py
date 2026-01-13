@@ -13,7 +13,8 @@ def get_file_count(path):
 st.set_page_config(page_title="Data Qualtiy Platform", layout="wide")
 
 def main():
-    st.title("Data Quality Platform")
+    st.title("Paddle-OCR Data Curation Platform")
+    st.subheader("Powered by RDK-X5")
     col1, col2 = st.columns(2)
 
     with col1:
@@ -25,7 +26,8 @@ def main():
         path_to_synthetic_dataset = st.text_input('Path to synthetic dataset', placeholder='Path to synthetic dataset')
         if st.button('Synthesize Dataset'):
             if dataset_raw_count > 0:
-                synthesize(path_to_dataset_raw, path_to_synthetic_dataset)
+                with st.spinner("Pleae wait while dataset is synthesized...."):
+                    synthesize(path_to_dataset_raw, path_to_synthetic_dataset)
                 synthesized_dataset_count = get_file_count(path_to_synthetic_dataset)
                 st.success('Dataset Synthesis Complete!')
                 st.info(f'Images Generated: {synthesized_dataset_count}')
@@ -42,8 +44,9 @@ def main():
         st.write('Confidence - Avg. sentence confidence of the prediction')
         if st.button('Start Labelling'):
             if True:
+                with st.spinner('Please wait while data is being labelled...'):
+                    label_main(path_to_synthetic_dataset, 'Data/labelled_dataset.csv')
                 st.success('Dataset labelling completed!')
-                label_main(path_to_synthetic_dataset, path_to_synthetic_dataset+'labelled_dataset.csv')
                 st.info(f'Labelled dataset at: {path_to_synthetic_dataset+"labelled_dataset.csv"}')
             else:
                 st.error('Error labelling dataset')
@@ -75,11 +78,18 @@ def main():
         print(quality_thresholds)
         if st.button('Curate Dataset'):
             try:
-                curate_dataset(path_to_synthetic_dataset+'labelled_dataset.csv', quality_thresholds, '')
+                with st.spinner('Please wait while data is being curated...'):
+                    curated_dataset_length, synthesized_dataset_count = curate_dataset('Data/labelled_dataset.csv', quality_thresholds, 'Data/')
                 st.success('Dataset Curated!')
-                st.info('File saved at:')
+                st.info('Files saved at: Data/')
+                with col2:
+                    st.header("4) Stats")
+                    st.caption("Stats of curated dataset")
+                    st.write(f"Size of curated dataset: {curated_dataset_length}")
+                    st.subheader(f"Labelling time reduced by: {round((synthesized_dataset_count-curated_dataset_length)/synthesized_dataset_count *100 , 2)}%")
             except Exception as e:
                 st.error(f'Failed with Exception: {e}')
+
             
 if __name__ == "__main__":
     main()
