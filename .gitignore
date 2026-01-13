@@ -1,0 +1,6 @@
+/Source/model/*.bin
+/Source/Data/Input/*.jpg
+/Source/Data/Input/*.png
+/Source/Data/Output/*.png
+/Source/Data/Output/*.jpg
+__pycache__/

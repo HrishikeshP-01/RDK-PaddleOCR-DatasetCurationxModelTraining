@@ -44,7 +44,7 @@ def main():
             if True:
                 st.success('Dataset labelling completed!')
                 label_main(path_to_synthetic_dataset, path_to_synthetic_dataset+'labelled_dataset.csv')
-                st.info(f'Labelled dataset at: {path_to_synthetic_dataset+'labelled_dataset.csv'}')
+                st.info(f'Labelled dataset at: {path_to_synthetic_dataset+"labelled_dataset.csv"}')
             else:
                 st.error('Error labelling dataset')
 

@@ -382,6 +382,7 @@ def init_args():
     return args
 
 def synthesize(input_path, output_path):
+    args = init_args()
     # Alphabet for OCR
     alphabet = """0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~!"#$%&'()*+,-./  """
     converter = strLabelConverter(alphabet)
